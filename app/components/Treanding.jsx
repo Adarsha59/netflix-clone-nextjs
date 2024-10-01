@@ -47,6 +47,7 @@ const NetflixCarousel = () => {
   const fetchTrendingMovies = async () => {
     try {
       const response = await axios.get("/api/trending/movie/day");
+      const trendingmovie = response.data.results;
       const moviesWithFullImages = response.data.results.map((movie) => ({
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -62,7 +63,6 @@ const NetflixCarousel = () => {
     fetchTrendingMovies();
   }, []);
 
-  console.log("objects loaded", carouselItems);
   return (
     <div className="mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-6">Trending Now</h2>

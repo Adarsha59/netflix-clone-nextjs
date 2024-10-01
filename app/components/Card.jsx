@@ -1,31 +1,47 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import { FaPlay, FaInfo, FaStar, FaPlus, FaShare } from "react-icons/fa";
+import axios from "axios";
+import { FaPlay, FaInfoCircle, FaStar, FaPlus, FaShare } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+
 const Card = ({ carouselItems }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [genres, setGenres] = useState([]);
+
+  const fetchGenre = async () => {
+    try {
+      const response = await axios.get("/api/genre/movie/list");
+      setGenres(response.data.genres);
+    } catch (error) {
+      console.error("Failed to fetch genres:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGenre();
+  }, []);
+
+  const getGenreName = (genreId) => {
+    const genre = genres.find((g) => g.id === genreId);
+    return genre ? genre.name : "Unknown Genre";
+  };
+
   const router = useRouter();
+
   const handleHover = (id) => {
     setHoveredItem(id);
-    // Log hover event
-    console.log(`Hovered over item: ${id}`);
   };
 
   const handlePlayNow = (id) => {
-    // Log play event
     router.push("/player");
-    console.log(`Play Now clicked for item: ${id}`);
-    // Implement play functionality here
   };
 
   const handleViewMore = (item) => {
     setSelectedItem(item);
     setShowModal(true);
-    // Log view more event
-    console.log(`View More clicked for item: ${item.id}`);
   };
 
   const handleCloseModal = () => {
@@ -46,48 +62,49 @@ const Card = ({ carouselItems }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
   return (
     <>
-      <div className="flex space-x-4 overflow-x-auto pb-4">
+      <div
+        className="flex space-x-4  pb-4 scroll-container"
+        style={{
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+          scrollbarWidth: "none",
+        }}
+      >
         {carouselItems.map((item) => (
           <div
             key={item.id}
-            className="relative flex-shrink-0 w-64 h-96 rounded-lg overflow-hidden transition-all duration-300 ease-in-out"
+            className="relative flex-shrink-0 w-64 h-96 rounded-lg overflow-hidden transition-transform transform duration-300 hover:scale-110 hover:shadow-2xl"
             onMouseEnter={() => handleHover(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
-            style={{
-              transform: hoveredItem === item.id ? "scale(1.05)" : "scale(1)",
-              boxShadow:
-                hoveredItem === item.id
-                  ? "0 10px 20px rgba(0,0,0,0.2)"
-                  : "none",
-            }}
           >
             <img
               src={item.poster_path}
               alt={item.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-lg"
             />
             {hoveredItem === item.id && (
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-end p-4">
-                <h3 className="text-white text-xl font-bold mb-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black bg-opacity-70 p-4 flex flex-col justify-end">
+                <h3 className="text-white text-lg font-semibold mb-1">
                   {item.title}
                 </h3>
-                <p className="text-gray-300 text-sm mb-4">{item.overview}</p>
-                <div className="flex space-x-2">
+                <p className="text-gray-300 text-sm line-clamp-2">
+                  {item.overview}
+                </p>
+                <div className="flex space-x-2 mt-3">
                   <button
                     onClick={() => handlePlayNow(item.id)}
-                    className="flex items-center justify-center bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors duration-200"
-                    aria-label="Play Now"
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-red-700 transition duration-200"
                   >
-                    <FaPlay className="mr-2" /> Play Now
+                    <FaPlay className="mr-1" /> <span>Play</span>
                   </button>
                   <button
                     onClick={() => handleViewMore(item)}
-                    className="flex items-center justify-center bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-200"
-                    aria-label="View More"
+                    className="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-600 transition duration-200"
                   >
-                    <FaInfo className="mr-2" /> View More
+                    <FaInfoCircle className="mr-1" /> <span>View More</span>
                   </button>
                 </div>
               </div>
@@ -95,6 +112,7 @@ const Card = ({ carouselItems }) => {
           </div>
         ))}
       </div>
+
       {showModal && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
@@ -107,48 +125,44 @@ const Card = ({ carouselItems }) => {
               <button
                 onClick={handleCloseModal}
                 className="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-70 transition-opacity duration-200"
-                aria-label="Close modal"
               >
                 <IoMdClose size={24} />
               </button>
             </div>
             <div className="p-6">
               <h2 className="text-3xl font-bold mb-2">{selectedItem.title}</h2>
-              <div className="flex items-center mb-4">
-                <FaStar className="text-yellow-400 mr-1" />
+              <div className="flex items-center mb-4 space-x-3">
+                <FaStar className="text-yellow-400" />
                 <span className="text-gray-700">
-                  {selectedItem.vote_average}
+                  {selectedItem.vote_average} ({selectedItem.vote_count} votes)
+                </span>
+                <span className="text-gray-500">
+                  | Released:{" "}
+                  {new Date(selectedItem.release_date).toDateString()}
                 </span>
               </div>
               <p className="text-gray-600 mb-4">{selectedItem.overview}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {selectedItem.genre_ids.map((tag) => (
+                {selectedItem.genre_ids.map((id) => (
                   <span
-                    key={tag}
+                    key={id}
                     className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm"
                   >
-                    {tag}
+                    {getGenreName(id)}
                   </span>
                 ))}
               </div>
               <div className="flex space-x-2 mb-6">
                 <button
                   onClick={() => handlePlayNow(selectedItem.id)}
-                  className="flex items-center justify-center bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors duration-200"
-                  aria-label="Play"
+                  className="bg-red-600 text-white px-6 py-2 rounded-lg flex items-center hover:bg-red-700 transition duration-200"
                 >
-                  <FaPlay className="mr-2" /> Play
+                  <FaPlay className="mr-2" /> Play Now
                 </button>
-                <button
-                  className="flex items-center justify-center bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300 transition-colors duration-200"
-                  aria-label="Add to My List"
-                >
+                <button className="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg flex items-center hover:bg-gray-300 transition duration-200">
                   <FaPlus className="mr-2" /> My List
                 </button>
-                <button
-                  className="flex items-center justify-center bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300 transition-colors duration-200"
-                  aria-label="Share"
-                >
+                <button className="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg flex items-center hover:bg-gray-300 transition duration-200">
                   <FaShare className="mr-2" /> Share
                 </button>
               </div>
@@ -160,11 +174,11 @@ const Card = ({ carouselItems }) => {
                   .map((item) => (
                     <div
                       key={item.id}
-                      className="bg-gray-100 rounded overflow-hidden cursor-pointer"
+                      className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
                       onClick={() => handleViewMore(item)}
                     >
                       <img
-                        src={item.image}
+                        src={item.poster_path}
                         alt={item.title}
                         className="w-full h-32 object-cover"
                       />

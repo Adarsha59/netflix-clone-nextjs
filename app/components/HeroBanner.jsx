@@ -1,20 +1,44 @@
 "use client";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaPlay, FaInfoCircle, FaPlus } from "react-icons/fa";
 
 const NetflixHeroBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
-
+  const [randomMovie, setRandomMovie] = useState(null);
   useEffect(() => {
     setIsVisible(true);
   }, []);
+  const fetchMovies = async () => {
+    try {
+      const response = await axios.get("/api/trending/movie/day");
+      const moviesWithFullImages = response.data.results.map((movie) => ({
+        ...movie,
+        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+      }));
 
+      // Select a random movie from the fetched list
+      const randomIndex = Math.floor(
+        Math.random() * moviesWithFullImages.length
+      );
+      setRandomMovie(moviesWithFullImages[randomIndex]);
+    } catch (error) {
+      console.error("Failed to fetch trending movies:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+  if (!randomMovie) return null;
+  console.log("objects fetched ran", randomMovie);
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-r from-black to-red-900">
         <img
-          src="https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+          //   src="fit=crop&w=1470&q=80"
+          src={randomMovie.backdrop_path}
           alt="Featured Content"
           className="w-full h-full object-cover opacity-50"
         />
@@ -28,11 +52,9 @@ const NetflixHeroBanner = () => {
           }`}
         >
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
-            Stranger Things
+            {randomMovie.original_title}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            A thrilling journey into the supernatural
-          </p>
+          <p className="text-xl md:text-2xl text-gray-300 mb-8"></p>
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mb-8">
@@ -49,21 +71,21 @@ const NetflixHeroBanner = () => {
 
           {/* User Ratings */}
           <div className="text-white mb-4">
-            <span className="text-green-500 font-bold mr-2">98% Match</span>
-            <span>2016</span>
+            <span className="text-green-500 font-bold mr-2">
+              {Math.ceil(randomMovie.vote_average * 10)}% Match
+            </span>
+
+            <span>{randomMovie.release_date}</span>
             <span className="mx-2">|</span>
-            <span>4 Seasons</span>
+            <span>{randomMovie.media_type}</span>
             <span className="mx-2">|</span>
-            <span>TV Mysteries</span>
+            <span>{randomMovie.original_language}</span>
           </div>
 
           {/* User Reviews */}
           <div className="bg-gray-800 bg-opacity-75 p-4 rounded-md max-w-md">
             <h3 className="text-white font-bold mb-2">User Reviews</h3>
-            <p className="text-gray-300 text-sm">
-              "An absolute masterpiece! The perfect blend of nostalgia and
-              supernatural thrills."
-            </p>
+            <p className="text-gray-300 text-sm">{randomMovie.overview}</p>
           </div>
         </div>
       </div>
