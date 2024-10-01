@@ -24,12 +24,12 @@ const NetflixNavbar = () => {
   }, []);
 
   const menuItems = [
-    "Home",
-    "TV Shows",
-    "Movies",
-    "New & Popular",
-    "My List",
-    "Browse by Language",
+    { name: "Home", path: "/" },
+    { name: "TV Shows", path: "/alltv" },
+    { name: "Movies", path: "/allmovie" },
+    { name: "New & Popular", path: "/new-popular" },
+    { name: "My List", path: "/my-list" },
+    { name: "Browse by Language", path: "/browse-language" },
   ];
 
   const handleSearch = async (e) => {
@@ -106,10 +106,10 @@ const NetflixNavbar = () => {
               {menuItems.map((item, index) => (
                 <a
                   key={index}
-                  href="#"
+                  href={item.path}
                   className="text-white text-sm hover:text-red-600 transition-colors duration-300"
                 >
-                  {item}
+                  {item.name}
                 </a>
               ))}
             </div>
@@ -164,10 +164,10 @@ const NetflixNavbar = () => {
             {menuItems.map((item, index) => (
               <a
                 key={index}
-                href="#"
+                href={item.path}
                 className="block px-4 py-2 text-white hover:text-red-600 transition-colors duration-300"
               >
-                {item}
+                {item.name}
               </a>
             ))}
           </div>
