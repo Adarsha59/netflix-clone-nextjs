@@ -1,19 +1,12 @@
-"use client"; // Add this line at the top of your file
-
+"use client";
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaUser, FaBars } from "react-icons/fa";
-import Card from "./Card"; // Make sure to import your Card component
-import CardTv from "./CradTv";
+import Card from "../components/Card";
 const NetflixNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showCard, setShowCard] = useState(false);
-
-  const [query, setQuery] = useState("");
-  const [error, setError] = useState(null);
-  const [movies, setMovies] = useState([]); // Renamed from movie to movies for clarity
-  const [tvShows, setTvShows] = useState([]); // Renamed from tv to tvShows for clarity
+  const [showCard, setShowCard] = useState(false); // New state for showing card
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +24,10 @@ const NetflixNavbar = () => {
     "My List",
     "Browse by Language",
   ];
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [error, setError] = useState(null);
+  const [carouselItems, setCarouselItems] = useState([]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -43,46 +40,18 @@ const NetflixNavbar = () => {
       }
       const data = await res.json();
 
-      const moviesWithFullImages = data.results
-        .map((item) => {
-          // Create a base object with full image paths
-          const fullImageItem = {
-            ...item,
-            poster_path: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-            backdrop_path: `https://image.tmdb.org/t/p/w500${item.backdrop_path}`,
-          };
+      const moviesWithFullImages = data.results.map((movie) => ({
+        ...movie,
+        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+      }));
 
-          // Return item based on media type
-          if (item.media_type === "movie") {
-            console.log("Movie found:", fullImageItem);
-            return fullImageItem; // Return movie item
-          } else if (item.media_type === "tv") {
-            console.log("TV show found:", fullImageItem);
-            return fullImageItem; // Return TV show item
-          }
-          return null; // Return null for unsupported media types
-        })
-        .filter((item) => item !== null); // Filter out null values
-
-      // Separate movies and TV shows into their respective state variables
-      const filteredMovies = moviesWithFullImages.filter(
-        (item) => item.media_type === "movie"
-      );
-      const filteredTvShows = moviesWithFullImages.filter(
-        (item) => item.media_type === "tv"
-      );
-
-      setMovies(filteredMovies);
-      setTvShows(filteredTvShows);
-      setShowCard(true);
+      setCarouselItems(moviesWithFullImages);
+      setResults(data.results);
+      setShowCard(true); // Show the card when search is successful
+      console.log("search results", data.results);
     } catch (err) {
       setError(err.message);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch(e);
     }
   };
 
@@ -118,7 +87,6 @@ const NetflixNavbar = () => {
             <div className="relative">
               <input
                 onClick={handleSearch}
-                onKeyDown={handleKeyDown}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -176,10 +144,9 @@ const NetflixNavbar = () => {
 
       {/* Show the trending card when there are results */}
       {showCard && (
-        <div className="fixed top-16 left-0 right-0 bg-black bg-opacity-90 p-6 rounded-md shadow-lg transition-opacity duration-300 z-50">
-          <h2 className="text-3xl font-bold mb-4">Results</h2>
-          {movies.length > 0 && <Card carouselItems={movies} />}
-          {tvShows.length > 0 && <CardTv carouselItems={tvShows} />}
+        <div className="mx-auto px-4 py-8">
+          <h2 className="text-3xl font-bold mb-6">Search </h2>
+          <Card carouselItems={carouselItems} />
         </div>
       )}
     </>

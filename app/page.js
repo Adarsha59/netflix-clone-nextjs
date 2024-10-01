@@ -4,6 +4,10 @@ import NetflixHeroBanner from "./components/HeroBanner";
 import TrendingCarousel from "./components/Treanding";
 import SnakeGame from "./components/snake";
 import ContentOverviewModal from "./components/Modal";
+import TrendingTv from "./components/TrendingTV";
+import TopRatedMovies from "./components/TopRatedMovies";
+import TopRatedTV from "./components/TopRatedTV";
+import Nepali from "./components/Nepali";
 
 export default function Home() {
   return (
@@ -11,10 +15,10 @@ export default function Home() {
       {/* <NetflixSignup /> */}
       <NetflixHeroBanner />
       <TrendingCarousel />
-      <TrendingCarousel />
-      <TrendingCarousel />
-      <ContentOverviewModal />
-      <TrendingCarousel />
+      <TrendingTv />
+      <TopRatedMovies />
+      <TopRatedTV />
+      <Nepali />
     </>
   );
 }

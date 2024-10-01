@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import axios from "axios";
 
-const NetflixCarousel = () => {
+const Hindi = () => {
   const Items = [
     {
       id: 1,
@@ -46,15 +46,13 @@ const NetflixCarousel = () => {
 
   const fetchTrendingMovies = async () => {
     try {
-      const response = await axios.get(
-        "/api/trending/movie/day?language=hi-IN"
-      );
-      const trendingmovie = response.data.results;
-      const moviesWithFullImages = response.data.results.map((movie) => ({
+      const res = await fetch("/api/hindi");
+      const data = await res.json();
+      const moviesWithFullImages = data.results.map((movie) => ({
         ...movie,
         poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
         backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
-      })); // Adjust the endpoint as needed
+      }));
       setCarouselItems(moviesWithFullImages);
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
@@ -67,10 +65,10 @@ const NetflixCarousel = () => {
 
   return (
     <div className="mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold mb-6">Trending Now</h2>
+      <h2 className="text-3xl font-bold mb-6">Hindi</h2>
       <Card carouselItems={carouselItems} />
     </div>
   );
 };
 
-export default NetflixCarousel;
+export default Hindi;

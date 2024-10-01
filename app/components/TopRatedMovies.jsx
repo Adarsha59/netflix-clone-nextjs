@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import axios from "axios";
 
-const NetflixCarousel = () => {
+const TopRatedMovies = () => {
   const Items = [
     {
       id: 1,
@@ -46,9 +46,7 @@ const NetflixCarousel = () => {
 
   const fetchTrendingMovies = async () => {
     try {
-      const response = await axios.get(
-        "/api/trending/movie/day?language=hi-IN"
-      );
+      const response = await axios.get("/api//movie/top_rated");
       const trendingmovie = response.data.results;
       const moviesWithFullImages = response.data.results.map((movie) => ({
         ...movie,
@@ -67,10 +65,10 @@ const NetflixCarousel = () => {
 
   return (
     <div className="mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold mb-6">Trending Now</h2>
+      <h2 className="text-3xl font-bold mb-6">Top Rated Movies</h2>
       <Card carouselItems={carouselItems} />
     </div>
   );
 };
 
-export default NetflixCarousel;
+export default TopRatedMovies;
