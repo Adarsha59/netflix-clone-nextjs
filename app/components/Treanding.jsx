@@ -52,8 +52,8 @@ const NetflixCarousel = () => {
       const trendingmovie = response.data.results;
       const moviesWithFullImages = response.data.results.map((movie) => ({
         ...movie,
-        poster_path: `https://img.tmdb.org/t/p/w500${movie.poster_path}`,
-        backdrop_path: `https://img.tmdb.org/t/p/w500${movie.backdrop_path}`,
+        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
       })); // Adjust the endpoint as needed
       setCarouselItems(moviesWithFullImages);
     } catch (error) {
