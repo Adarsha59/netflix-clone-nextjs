@@ -22,8 +22,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Netflix-Clone",
-  description: "Clone netflix from TMDB API ",
+  title: "Moviflix",
+  description: "Netflix Clone ",
 };
 
 export default function RootLayout({ children }) {
