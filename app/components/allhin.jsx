@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Card"; // Make sure your Card component is properly exported
+import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Hin = () => {
   const [movies, setMovies] = useState([]); // To store all movies

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch, FaUser, FaBars } from "react-icons/fa";
 import Card from "./Card"; // Make sure to import your Card component
 import CardTv from "./CradTv";
+import { UserButton, UserProfile } from "@clerk/nextjs";
 const NetflixNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,10 +55,8 @@ const NetflixNavbar = () => {
 
           // Return item based on media type
           if (item.media_type === "movie") {
-            console.log("Movie found:", fullImageItem);
             return fullImageItem; // Return movie item
           } else if (item.media_type === "tv") {
-            console.log("TV show found:", fullImageItem);
             return fullImageItem; // Return TV show item
           }
           return null; // Return null for unsupported media types
@@ -98,7 +97,7 @@ const NetflixNavbar = () => {
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center">
             <img
-              src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+              src="/image/logo.ico"
               alt="Netflix Logo"
               className="h-10 mr-4"
             />
@@ -132,7 +131,7 @@ const NetflixNavbar = () => {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="text-white hover:text-red-600 transition-colors duration-300"
               >
-                <FaUser className="text-2xl" />
+                <UserButton />
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-black bg-opacity-90 rounded-md shadow-lg py-1 z-10">
@@ -177,7 +176,13 @@ const NetflixNavbar = () => {
       {/* Show the trending card when there are results */}
       {showCard && (
         <div className="fixed top-16 left-0 right-0 bg-black bg-opacity-90 p-6 rounded-md shadow-lg transition-opacity duration-300 z-50">
-          <h2 className="text-3xl font-bold mb-4">Results</h2>
+          <a
+            href="/"
+            className="block text-center text-4xl font-bold mb-4 hover:text-red-600 transition-colors duration-300"
+          >
+            Go Back
+          </a>
+          <h2 className="text-3xl font-bold mb-4 text-center">Results</h2>
           {movies.length > 0 && <Card carouselItems={movies} />}
           {tvShows.length > 0 && <CardTv carouselItems={tvShows} />}
         </div>

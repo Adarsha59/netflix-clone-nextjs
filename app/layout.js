@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import NetflixNavbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,15 +22,19 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Use the imported fonts in your CSS
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NetflixNavbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <NetflixNavbar />
+          {children}
+          <Toaster />
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

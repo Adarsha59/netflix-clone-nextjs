@@ -5,8 +5,12 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const apiKey = process.env.TMDB_API_KEY; // Ensure you have your API key stored in an environment variable
   const response = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=ne-NP&region=NP&sort_by=popularity.desc&page=1&primary_release_year=2018&with_original_language=hi`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=hi-IN&region=NP&sort_by=popularity.desc&with_original_language=ne`
   );
+  // const response = await fetch(
+  //   `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=hi-IN&region=IN&sort_by=popularity.desc&with_original_language=ta`
+  // );
+  //  "/discover/movie?language=hi-IN&region=NP&sort_by=popularity.desc&with_original_language=ne"
 
   if (!response.ok) {
     return NextResponse.json(

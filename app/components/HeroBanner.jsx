@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaPlay, FaInfoCircle, FaPlus } from "react-icons/fa";
 
@@ -31,7 +32,6 @@ const NetflixHeroBanner = () => {
     fetchMovies();
   }, []);
   if (!randomMovie) return null;
-  console.log("objects fetched ran", randomMovie);
   return (
     <div className="relative h-screen w-full overflow-hidden">
       {/* Background */}
@@ -40,7 +40,7 @@ const NetflixHeroBanner = () => {
           //   src="fit=crop&w=1470&q=80"
           src={randomMovie.backdrop_path}
           alt="Featured Content"
-          className="w-full h-full object-cover opacity-50"
+          className="w-full h-full object-cover opacity-60"
         />
       </div>
 
@@ -58,12 +58,16 @@ const NetflixHeroBanner = () => {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="flex items-center px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-300">
-              <FaPlay className="mr-2" /> Watch Now
-            </button>
-            <button className="flex items-center px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors duration-300">
-              <FaInfoCircle className="mr-2" /> More Info
-            </button>
+            <Link href={`player/movie&${randomMovie.id}`}>
+              <button className="flex items-center px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-300">
+                <FaPlay className="mr-2" /> Watch Now
+              </button>
+            </Link>
+            <Link href={`/${randomMovie.id}/aboutmovie`}>
+              <button className="flex items-center px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors duration-300">
+                <FaInfoCircle className="mr-2" /> More Info
+              </button>
+            </Link>
             <button className="flex items-center px-4 py-2 bg-transparent border border-gray-300 text-white rounded-md hover:bg-gray-700 transition-colors duration-300">
               <FaPlus className="mr-2" /> My List
             </button>

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlay, FaInfoCircle, FaStar, FaPlus, FaShare } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import Movierec from "./movierecom";
+import Link from "next/link";
 
 const CardTv = ({ carouselItems }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -35,8 +37,8 @@ const CardTv = ({ carouselItems }) => {
     setHoveredItem(id);
   };
 
-  const handlePlayNow = (id) => {
-    router.push("/player");
+  const handlePlayNow = (id, media_type) => {
+    router.push(`/player/${media_type}&${id}`);
   };
 
   const handleViewMore = (item) => {
@@ -94,7 +96,7 @@ const CardTv = ({ carouselItems }) => {
                 </p>
                 <div className="flex space-x-2 mt-3">
                   <button
-                    onClick={() => handlePlayNow(item.id)}
+                    onClick={() => handlePlayNow(item.id, item.media_type)}
                     className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-red-700 transition duration-200"
                   >
                     <FaPlay className="mr-1" /> <span>Play</span>
@@ -114,7 +116,7 @@ const CardTv = ({ carouselItems }) => {
 
       {showModal && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white bg-opacity-30 backdrop-blur-lg border border-white border-opacity-20 shadow-lg">
             <div className="relative">
               <img
                 src={selectedItem.backdrop_path}
@@ -132,15 +134,15 @@ const CardTv = ({ carouselItems }) => {
               <h2 className="text-3xl font-bold mb-2">{selectedItem.name}</h2>
               <div className="flex items-center mb-4 space-x-3">
                 <FaStar className="text-yellow-400" />
-                <span className="text-gray-700">
+                <span className="text-black-700">
                   {selectedItem.vote_average} ({selectedItem.vote_count} votes)
                 </span>
-                <span className="text-gray-500">
+                <span className="text-black-500">
                   | First Aired:{" "}
                   {new Date(selectedItem.first_air_date).toDateString()}
                 </span>
               </div>
-              <p className="text-gray-600 mb-4">{selectedItem.overview}</p>
+              <p className="text-black-600 mb-4">{selectedItem.overview}</p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {selectedItem.genre_ids.map((id) => (
                   <span
@@ -164,28 +166,23 @@ const CardTv = ({ carouselItems }) => {
                 <button className="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg flex items-center hover:bg-gray-300 transition duration-200">
                   <FaShare className="mr-2" /> Share
                 </button>
+                <Link href={`/${selectedItem.id}/abouttv`}>
+                  <button className="flex items-center px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors duration-300">
+                    <FaInfoCircle className="mr-2" /> More Info
+                  </button>
+                </Link>
               </div>
               <h3 className="text-xl font-bold mb-2">Related Titles</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {carouselItems
-                  .filter((item) => item.id !== selectedItem.id)
-                  .slice(0, 3)
-                  .map((item) => (
-                    <div
-                      key={item.id}
-                      className="bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
-                      onClick={() => handleViewMore(item)}
-                    >
-                      <img
-                        src={item.poster_path}
-                        alt={item.name}
-                        className="w-full h-32 object-cover"
-                      />
-                      <div className="p-2">
-                        <h4 className="font-semibold text-sm">{item.name}</h4>
-                      </div>
-                    </div>
-                  ))}
+              <div
+                className="grid grid-cols-2 sm:grid-cols-3 gap-4 overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-transparent  "
+                style={{
+                  // overflowX: "auto",
+                  overflowY: "auto",
+                  whiteSpace: "nowrap",
+                  scrollbarWidth: "none",
+                }}
+              >
+                <Movierec id={selectedItem.id} />
               </div>
             </div>
           </div>

@@ -1,4 +1,6 @@
 "use client";
+import { SignUp } from "@clerk/nextjs";
+import Link from "next/link";
 import React, { useState } from "react";
 import {
   FaChevronLeft,
@@ -12,7 +14,6 @@ import {
 const NetflixSignUp = () => {
   const [email, setEmail] = useState("");
   const [activeAccordion, setActiveAccordion] = useState(null);
-
   const trendingMovies = [
     {
       id: 1,
@@ -97,12 +98,11 @@ const NetflixSignUp = () => {
             alt="Netflix Logo"
             className="w-24 md:w-40"
           />
-          <a
-            href="#"
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-300"
-          >
-            Sign In
-          </a>
+          <Link href="/sign-in">
+            <button className="bg-red-600 text-white px-8 py-3 rounded-md hover:bg-red-700 transition duration-300 text-xl font-bold">
+              Signin
+            </button>
+          </Link>
         </header>
 
         {/* Main Content */}
@@ -128,9 +128,11 @@ const NetflixSignUp = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <button className="bg-red-600 text-white px-8 py-3 rounded-md hover:bg-red-700 transition duration-300 text-xl font-bold">
-                Get Started
-              </button>
+              <Link href="/sign-up">
+                <button className="bg-red-600 text-white px-8 py-3 rounded-md hover:bg-red-700 transition duration-300 text-xl font-bold">
+                  Get Started
+                </button>
+              </Link>
             </div>
           </div>
 

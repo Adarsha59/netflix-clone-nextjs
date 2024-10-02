@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -13,10 +13,10 @@ const Footer = () => {
             "Privacy Policy",
             "Terms of Service",
             "Help Center",
-          ].map((link) => (
+          ].map((link, path) => (
             <a
               key={link}
-              href="#"
+              href={path}
               className="mx-3 my-1 hover:text-[#e50914] transition-colors duration-300"
             >
               {link}
@@ -25,13 +25,25 @@ const Footer = () => {
         </div>
         <div className="footer-social flex justify-center mb-4">
           {[
-            { icon: <FaFacebook />, label: "Facebook" },
-            { icon: <FaTwitter />, label: "Twitter" },
-            { icon: <FaInstagram />, label: "Instagram" },
-          ].map(({ icon, label }) => (
+            {
+              icon: <FaFacebook />,
+              label: "Facebook",
+              path: "https://www.facebook.com/paudyaladarsha",
+            },
+            {
+              icon: <FaTwitter />,
+              label: "Twitter",
+              path: "https://x.com/Adarsha59",
+            },
+            {
+              icon: <FaGithub />,
+              label: "Instagram",
+              path: "https://github.com/Adarsha59",
+            },
+          ].map(({ icon, label, path }) => (
             <a
               key={label}
-              href="#"
+              href={path}
               className="mx-2 text-2xl hover:text-[#e50914] transition-colors duration-300"
               aria-label={label}
             >
@@ -40,7 +52,7 @@ const Footer = () => {
           ))}
         </div>
         <div className="footer-bottom text-sm">
-          &copy; 2024 Netflix Clone. All rights reserved.
+          &copy; 2024 Netflix Clone. All rights reserved. || Adarsha Paudyal
         </div>
       </div>
     </footer>
