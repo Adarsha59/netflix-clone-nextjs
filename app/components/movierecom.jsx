@@ -43,27 +43,26 @@ const Movierec = ({ id }) => {
   const [carouselItems, setCarouselItems] = useState(Items);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
-  const fetchTrendingMovies = async () => {
-    try {
-      const response =
-        (await axios.get(`/api/movie/${id}/recommendations`)) ||
-        (await axios.get(`/api/tv/${id}/recommendations`));
-      const trendingmovie = response.data.results;
-      const moviesWithFullImages = response.data.results.map((movie) => ({
-        ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
-      })); // Adjust the endpoint as needed
-      setCarouselItems(moviesWithFullImages);
-    } catch (error) {
-      console.error("Failed to fetch trending movies:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchTrendingMovies = async () => {
+      try {
+        const response =
+          (await axios.get(`/api/movie/${id}/recommendations`)) ||
+          (await axios.get(`/api/tv/${id}/recommendations`));
+        const trendingmovie = response.data.results;
+        const moviesWithFullImages = response.data.results.map((movie) => ({
+          ...movie,
+          poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+          backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+        })); // Adjust the endpoint as needed
+        setCarouselItems(moviesWithFullImages);
+      } catch (error) {
+        console.error("Failed to fetch trending movies:", error);
+      }
+    };
+
     fetchTrendingMovies();
-  }, []);
+  }, [id]);
 
   return (
     <div className="mx-auto px-4 py-8">

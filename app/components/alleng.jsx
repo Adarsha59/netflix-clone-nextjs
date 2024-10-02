@@ -10,35 +10,36 @@ const English = () => {
   const [hasMore, setHasMore] = useState(true); // To know if more data is available
 
   // Fetch movies based on the current page
-  const fetchMovies = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/english?page=${page}`);
-      const trendingMovies = response.data.results;
-
-      // Format movie image paths
-      const moviesWithFullImages = trendingMovies.map((movie) => ({
-        ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
-      }));
-
-      // Append the new movies to the existing list
-      setMovies((prevMovies) => [...prevMovies, ...moviesWithFullImages]);
-
-      // If no more movies are available, stop loading
-      if (trendingMovies.length === 0) {
-        setHasMore(false);
-      }
-    } catch (error) {
-      console.error("Failed to fetch movies:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Initial fetch when the component mounts
   useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`/api/english?page=${page}`);
+        const trendingMovies = response.data.results;
+
+        // Format movie image paths
+        const moviesWithFullImages = trendingMovies.map((movie) => ({
+          ...movie,
+          poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+          backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+        }));
+
+        // Append the new movies to the existing list
+        setMovies((prevMovies) => [...prevMovies, ...moviesWithFullImages]);
+
+        // If no more movies are available, stop loading
+        if (trendingMovies.length === 0) {
+          setHasMore(false);
+        }
+      } catch (error) {
+        console.error("Failed to fetch movies:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Initial fetch when the component mounts
+
     fetchMovies();
   }, [page]); // Re-fetch whenever the page changes
 

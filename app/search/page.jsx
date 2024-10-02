@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaUser, FaBars } from "react-icons/fa";
 import Card from "../components/Card";
+import Image from "next/image";
 const NetflixNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,7 +16,6 @@ const NetflixNavbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   const menuItems = [
     "Home",
     "TV Shows",
@@ -66,7 +66,9 @@ const NetflixNavbar = () => {
       >
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center">
-            <img
+            <Image
+              width={100}
+              height={100}
               src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
               alt="Netflix Logo"
               className="h-10 mr-4"

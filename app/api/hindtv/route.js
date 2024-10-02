@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const apiKey = process.env.TMDB_API_KEY; // Store your API key in an environment variable
   const response = await fetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=hi-IN&region=IN&sort_by=popularity.desc&page=${page}&with_original_language=hi`
+    `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=hi-IN&region=IN&sort_by=popularity.desc&with_original_language=hi`
   );
 
   if (!response.ok) {

@@ -1,5 +1,6 @@
 "use client";
 import { SignUp } from "@clerk/nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import {
@@ -93,7 +94,9 @@ const NetflixSignUp = () => {
       <div className="relative z-10">
         {/* Header */}
         <header className="flex justify-between items-center p-4 md:p-8">
-          <img
+          <Image
+            width={100}
+            height={100}
             src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
             alt="Netflix Logo"
             className="w-24 md:w-40"
@@ -146,7 +149,9 @@ const NetflixSignUp = () => {
                     key={movie.id}
                     className="flex-shrink-0 w-40 h-60 relative group"
                   >
-                    <img
+                    <Image
+                      width={100}
+                      height={100}
                       src={movie.poster}
                       alt={movie.title}
                       className="w-full h-full object-cover rounded-md"

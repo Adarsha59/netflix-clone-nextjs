@@ -7,6 +7,7 @@ import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
+import Image from "next/image";
 const MovieDetailsPage = () => {
   const [tvData, setTvData] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -23,31 +24,31 @@ const MovieDetailsPage = () => {
       console.error("Failed to copy the URL:", error);
     }
   };
-  const fetchTvDetails = async () => {
-    try {
-      const response = await axios.get(`/api/tv/${tvId}`);
-      const tv = response.data;
-
-      // Update poster and backdrop paths with full URLs
-      const tvWithFullImages = {
-        ...tv,
-        poster_path: tv.poster_path
-          ? `https://image.tmdb.org/t/p/w500${tv.poster_path}`
-          : null,
-        backdrop_path: tv.backdrop_path
-          ? `https://image.tmdb.org/t/p/w500${tv.backdrop_path}`
-          : null,
-      };
-
-      setTvData(tvWithFullImages);
-    } catch (error) {
-      console.error("Failed to fetch TV details:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchTvDetails = async () => {
+      try {
+        const response = await axios.get(`/api/tv/${tvId}`);
+        const tv = response.data;
+
+        // Update poster and backdrop paths with full URLs
+        const tvWithFullImages = {
+          ...tv,
+          poster_path: tv.poster_path
+            ? `https://image.tmdb.org/t/p/w500${tv.poster_path}`
+            : null,
+          backdrop_path: tv.backdrop_path
+            ? `https://image.tmdb.org/t/p/w500${tv.backdrop_path}`
+            : null,
+        };
+
+        setTvData(tvWithFullImages);
+      } catch (error) {
+        console.error("Failed to fetch TV details:", error);
+      }
+    };
+
     fetchTvDetails();
-  }, []);
+  }, [tvId]);
 
   if (!tvData) {
     return <div>Loading...</div>;
@@ -75,7 +76,9 @@ const MovieDetailsPage = () => {
               className="relative cursor-pointer transform hover:scale-105 transition duration-300"
               onClick={toggleModal}
             >
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={tvData.poster_path}
                 alt={tvData.name}
                 className="rounded-lg shadow-xl"
@@ -97,7 +100,7 @@ const MovieDetailsPage = () => {
 
             {/* Action Buttons */}
             <div className="flex space-x-4 mb-6">
-              <Link href={`/player/${tvId}`}>
+              <Link href={`player/movie&${tvId}`}>
                 <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center">
                   <FaPlay className="mr-2" />
                   Watch Now
@@ -163,7 +166,9 @@ const MovieDetailsPage = () => {
                       key={season.id}
                       className="flex items-center space-x-4 bg-gray-800 p-4 rounded-lg"
                     >
-                      <img
+                      <Image
+                        width={100}
+                        height={100}
                         src={`https://image.tmdb.org/t/p/w200${season.poster_path}`}
                         alt={season.name}
                         className="w-24 rounded-lg"
@@ -209,7 +214,9 @@ const MovieDetailsPage = () => {
             className="max-w-4xl w-full p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            <Image
+              width={100}
+              height={100}
               src={tvData.poster_path}
               alt={tvData.name}
               className="w-full rounded-lg shadow-2xl"

@@ -5,6 +5,7 @@ import { FaSearch, FaUser, FaBars } from "react-icons/fa";
 import Card from "./Card"; // Make sure to import your Card component
 import CardTv from "./CradTv";
 import { UserButton, UserProfile } from "@clerk/nextjs";
+import Image from "next/image";
 const NetflixNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -96,9 +97,11 @@ const NetflixNavbar = () => {
       >
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center">
-            <img
+            <Image
               src="/image/logo.ico"
               alt="Netflix Logo"
+              width={80}
+              height={80}
               className="h-10 mr-4"
             />
             <div className="hidden md:flex space-x-2">

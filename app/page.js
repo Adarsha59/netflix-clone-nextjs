@@ -2,8 +2,6 @@
 import NetflixSignup from "./home/page"; // Signup page
 import NetflixHeroBanner from "./components/HeroBanner"; // Other components
 import TrendingCarousel from "./components/Treanding";
-import SnakeGame from "./components/snake";
-import ContentOverviewModal from "./components/Modal";
 import TrendingTv from "./components/TrendingTV";
 import TopRatedMovies from "./components/TopRatedMovies";
 import TopRatedTV from "./components/TopRatedTV";

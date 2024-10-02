@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import Movierec from "./movierecom";
 import Link from "next/link";
 import toast from "react-hot-toast";
-
+import Image from "next/image";
 const Card = ({ carouselItems }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -24,16 +24,16 @@ const Card = ({ carouselItems }) => {
       console.error("Failed to copy the URL:", error);
     }
   };
-  const fetchGenre = async () => {
-    try {
-      const response = await axios.get("/api/genre/movie/list");
-      setGenres(response.data.genres);
-    } catch (error) {
-      console.error("Failed to fetch genres:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchGenre = async () => {
+      try {
+        const response = await axios.get("/api/genre/movie/list");
+        setGenres(response.data.genres);
+      } catch (error) {
+        console.error("Failed to fetch genres:", error);
+      }
+    };
+
     fetchGenre();
   }, []);
 
@@ -93,7 +93,9 @@ const Card = ({ carouselItems }) => {
             onMouseEnter={() => handleHover(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <img
+            <Image
+              width={100}
+              height={100}
               src={item.poster_path}
               alt={item.title}
               className="w-full h-full object-cover rounded-lg"
@@ -130,7 +132,9 @@ const Card = ({ carouselItems }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white bg-opacity-30 backdrop-blur-lg border border-white border-opacity-20 shadow-lg">
             <div className="relative">
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={selectedItem.backdrop_path}
                 alt={selectedItem.title}
                 className="w-full h-64 object-cover rounded-t-lg"

@@ -6,6 +6,7 @@ import { FaPlay, FaInfoCircle, FaStar, FaPlus, FaShare } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import Movierec from "./movierecom";
 import Link from "next/link";
+import Image from "next/image";
 
 const CardTv = ({ carouselItems }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -40,7 +41,6 @@ const CardTv = ({ carouselItems }) => {
   const handlePlayNow = (id, media_type) => {
     router.push(`/player/${media_type}&${id}`);
   };
-
   const handleViewMore = (item) => {
     setSelectedItem(item);
     setShowModal(true);
@@ -81,7 +81,9 @@ const CardTv = ({ carouselItems }) => {
             onMouseEnter={() => handleHover(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <img
+            <Image
+              width={100}
+              height={100}
               src={item.poster_path}
               alt={item.title}
               className="w-full h-full object-cover rounded-lg"
@@ -118,7 +120,9 @@ const CardTv = ({ carouselItems }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white bg-opacity-30 backdrop-blur-lg border border-white border-opacity-20 shadow-lg">
             <div className="relative">
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={selectedItem.backdrop_path}
                 alt={selectedItem.name}
                 className="w-full h-64 object-cover rounded-t-lg"

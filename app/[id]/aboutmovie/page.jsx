@@ -7,6 +7,8 @@ import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import toast from "react-hot-toast";
+import Image from "next/image";
+
 const MovieDetailsPage = () => {
   const [movieData, setMovieData] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -18,37 +20,37 @@ const MovieDetailsPage = () => {
     const fullUrl = `${window.location.origin}${pathname}`;
     try {
       await navigator.clipboard.writeText(fullUrl);
-      setTimeout(() => setCopied(false), 2000);
       toast.success("Share link copied");
     } catch (error) {
       console.error("Failed to copy the URL:", error);
     }
   };
-  const fetchMovieDetails = async () => {
-    try {
-      const response = await axios.get(`/api/movie/${movieId}`);
-      const movie = response.data;
-
-      // Update poster and backdrop paths with full URLs
-      const movieWithFullImages = {
-        ...movie,
-        poster_path: movie.poster_path
-          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-          : null,
-        backdrop_path: movie.backdrop_path
-          ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
-          : null,
-      };
-
-      setMovieData(movieWithFullImages);
-    } catch (error) {
-      console.error("Failed to fetch movie details:", error);
-    }
-  };
 
   useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await axios.get(`/api/movie/${movieId}`);
+        const movie = response.data;
+
+        // Update poster and backdrop paths with full URLs
+        const movieWithFullImages = {
+          ...movie,
+          poster_path: movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : null,
+          backdrop_path: movie.backdrop_path
+            ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+            : null,
+        };
+
+        setMovieData(movieWithFullImages);
+      } catch (error) {
+        console.error("Failed to fetch movie details:", error);
+      }
+    };
+
     fetchMovieDetails();
-  }, []);
+  }, [movieId]); // movieId is stable and doesn't change on every render
 
   if (!movieData) {
     return <div>Loading...</div>;
@@ -76,7 +78,9 @@ const MovieDetailsPage = () => {
               className="relative cursor-pointer transform hover:scale-105 transition duration-300"
               onClick={toggleModal}
             >
-              <img
+              <Image
+                width={100}
+                height={100}
                 src={movieData.poster_path}
                 alt={movieData.title}
                 className="rounded-lg shadow-xl"
@@ -98,7 +102,7 @@ const MovieDetailsPage = () => {
 
             {/* Action Buttons */}
             <div className="flex space-x-4 mb-6">
-              <Link href={`/player/${movieId}`}>
+              <Link href={`player/movie&${movieId}`}>
                 <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center">
                   <FaPlay className="mr-2" />
                   Watch Now
@@ -178,7 +182,9 @@ const MovieDetailsPage = () => {
                 {movieData.production_companies?.map((company, index) => (
                   <div key={index} className="flex flex-col items-center">
                     {company.logo_path && (
-                      <img
+                      <Image
+                        width={100}
+                        height={100}
                         src={`https://image.tmdb.org/t/p/w200${company.logo_path}`}
                         alt={company.name}
                         className="h-16 object-contain mb-2"
@@ -197,7 +203,9 @@ const MovieDetailsPage = () => {
                   Part of the {movieData.belongs_to_collection.name}
                 </h2>
                 <div className="flex items-center space-x-6">
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     src={`https://image.tmdb.org/t/p/w200${movieData.belongs_to_collection.poster_path}`}
                     alt={movieData.belongs_to_collection.name}
                     className="w-32 rounded-lg shadow-lg"
@@ -222,7 +230,9 @@ const MovieDetailsPage = () => {
             className="max-w-4xl w-full p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            <Image
+              width={100}
+              height={100}
               src={movieData.poster_path}
               alt={movieData.title}
               className="w-full rounded-lg shadow-2xl"

@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaPlay, FaInfoCircle, FaPlus } from "react-icons/fa";
@@ -36,14 +37,14 @@ const NetflixHeroBanner = () => {
     <div className="relative h-screen w-full overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-r from-black to-red-900">
-        <img
-          //   src="fit=crop&w=1470&q=80"
+        <Image
+          width={100}
+          height={100}
           src={randomMovie.backdrop_path}
           alt="Featured Content"
           className="w-full h-full object-cover opacity-60"
         />
       </div>
-
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 lg:px-24">
         <div
