@@ -4,7 +4,12 @@ import NetflixNavbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
-
+import { Rowdies } from "next/font/google";
+const londrinaOutline = Rowdies({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -27,7 +32,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased ${londrinaOutline.className}`}
         >
           <NetflixNavbar />
           {children}
