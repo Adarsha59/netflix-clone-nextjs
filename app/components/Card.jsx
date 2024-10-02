@@ -48,8 +48,8 @@ const Card = ({ carouselItems }) => {
     setHoveredItem(id);
   };
 
-  const handlePlayNow = (id, media_type) => {
-    router.push(`/player/${media_type}&${id}`);
+  const handlePlayNow = (id) => {
+    router.push(`/player/movie&${id}`);
   };
 
   const handleViewMore = (item) => {
@@ -110,7 +110,7 @@ const Card = ({ carouselItems }) => {
                 </p>
                 <div className="flex space-x-2 mt-3">
                   <button
-                    onClick={() => handlePlayNow(item.id, item.media_type)}
+                    onClick={() => handlePlayNow(item.id)}
                     className="bg-red-600 text-black px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-red-700 transition duration-200"
                   >
                     <FaPlay className="mr-1" /> <span>Play</span>
