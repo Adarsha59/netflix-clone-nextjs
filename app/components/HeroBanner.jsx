@@ -16,8 +16,8 @@ const NetflixHeroBanner = () => {
       const response = await axios.get("/api/trending/movie/day");
       const moviesWithFullImages = response.data.results.map((movie) => ({
         ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+        poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`,
       }));
 
       // Select a random movie from the fetched list
@@ -38,8 +38,8 @@ const NetflixHeroBanner = () => {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-r from-black to-red-900">
         <Image
-          width={100}
-          height={100}
+          // width={100}
+          layout="fill"
           src={randomMovie.backdrop_path}
           alt="Featured Content"
           className="w-full h-full object-cover opacity-60"

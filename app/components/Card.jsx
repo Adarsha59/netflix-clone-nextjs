@@ -133,8 +133,7 @@ const Card = ({ carouselItems }) => {
           <div className="rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-white bg-opacity-30 backdrop-blur-lg border border-white border-opacity-20 shadow-lg">
             <div className="relative">
               <Image
-                width={100}
-                height={100}
+                layout="fill"
                 src={selectedItem.backdrop_path}
                 alt={selectedItem.title}
                 className="w-full h-64 object-cover rounded-t-lg"

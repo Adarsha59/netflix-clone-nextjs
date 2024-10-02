@@ -50,8 +50,8 @@ const Hindi = () => {
       const data = await res.json();
       const moviesWithFullImages = data.results.map((movie) => ({
         ...movie,
-        poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-        backdrop_path: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+        poster_path: `https://image.tmdb.org/t/p/original/${movie.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`,
       }));
       setCarouselItems(moviesWithFullImages);
     } catch (error) {

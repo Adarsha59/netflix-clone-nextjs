@@ -82,8 +82,7 @@ const CardTv = ({ carouselItems }) => {
             onMouseLeave={() => setHoveredItem(null)}
           >
             <Image
-              width={100}
-              height={100}
+              layout="fill"
               src={item.poster_path}
               alt={item.title}
               className="w-full h-full object-cover rounded-lg"

@@ -79,8 +79,8 @@ const MovieDetailsPage = () => {
               onClick={toggleModal}
             >
               <Image
-                width={100}
-                height={100}
+                width={800}
+                height={800}
                 src={movieData.poster_path}
                 alt={movieData.title}
                 className="rounded-lg shadow-xl"
@@ -204,8 +204,8 @@ const MovieDetailsPage = () => {
                 </h2>
                 <div className="flex items-center space-x-6">
                   <Image
-                    width={100}
-                    height={100}
+                    width={800}
+                    height={800}
                     src={`https://image.tmdb.org/t/p/w200${movieData.belongs_to_collection.poster_path}`}
                     alt={movieData.belongs_to_collection.name}
                     className="w-32 rounded-lg shadow-lg"

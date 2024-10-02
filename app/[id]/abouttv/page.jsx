@@ -77,8 +77,8 @@ const MovieDetailsPage = () => {
               onClick={toggleModal}
             >
               <Image
-                width={100}
-                height={100}
+                width={800}
+                height={800}
                 src={tvData.poster_path}
                 alt={tvData.name}
                 className="rounded-lg shadow-xl"
@@ -215,9 +215,9 @@ const MovieDetailsPage = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <Image
+              src={tvData.poster_path}
               width={100}
               height={100}
-              src={tvData.poster_path}
               alt={tvData.name}
               className="w-full rounded-lg shadow-2xl"
             />
