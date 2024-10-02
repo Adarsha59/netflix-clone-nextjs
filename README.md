@@ -1,38 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Netflix Clone Documentation
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+3. [Project Structure](#project-structure)
+4. [Features](#features)
+5. [API Integration](#api-integration)
+6. [Routing](#routing)
+7. [Styling](#styling)
+8. [Deployment](#deployment)
+9. [Future Improvements](#future-improvements)
+10. [Conclusion](#conclusion)
+
+## Introduction
+
+This documentation provides an overview of a Netflix clone built with Next.js 14, utilizing the TMDB API to retrieve and display movie information. The application enables users to browse, search, and view details of movies, mimicking the Netflix experience.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+To run this project, you need:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js (version 14 or higher)
+- npm (Node Package Manager, which comes with Node.js)
+- An API key from TMDB (The Movie Database)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository from your source control.
+2. Navigate to the project directory.
+3. Install the necessary dependencies using npm.
+4. Create a `.env.local` file in the root directory to store your TMDB API key.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Movie Browsing**: Users can browse through a list of popular and trending movies.
+- **Movie Details**: Each movie has a dedicated page showing detailed information, including ratings, overview, and release dates.
+- **Search Functionality**: Users can search for specific movies.
+- **Responsive Design**: The application is designed to be responsive and works on both desktop and mobile devices.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The application leverages the TMDB API to fetch movie data. Users need to register on TMDB to obtain an API key, which should be stored in the environment variables.
 
-## Deploy on Vercel
+## Routing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses Next.js App Router for navigation:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-https://www.reddit.com/r/Piracy/comments/1cmjrjc/are_there_any_good_movie_streaming_websitesapps/
-https://web.netmovies.to/jawan/
+- Dynamic routes are created for individual movie details pages.
+- The routing structure allows users to navigate easily between different sections of the application.
+
+## Styling
+
+Styling is managed through CSS modules or a utility-first CSS framework like Tailwind CSS. The design focuses on user experience, ensuring that the layout is intuitive and visually appealing.
+
+## Deployment
+
+The application can be deployed on platforms such as Vercel or Netlify. Ensure that environment variables are configured properly in the deployment settings to allow the application to access the TMDB API.
+
+## Future Improvements
+
+- **User Authentication**: Implementing user accounts to allow users to create watchlists.
+- **Advanced Search and Filtering**: Adding features to filter movies by genre, ratings, etc.
+- **Favorites**: Allowing users to mark movies as favorites for easy access later.
+
+## Conclusion
+
+This Netflix clone demonstrates the capabilities of Next.js 14 and the TMDB API, providing users with a familiar and engaging movie browsing experience. The project can be expanded upon with additional features and improvements to enhance its functionality and user experience.
